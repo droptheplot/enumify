@@ -2,7 +2,7 @@
 
 ![CI](https://github.com/droptheplot/enumify/actions/workflows/scala.yml/badge.svg)
 
-Enumify is a SBT plugin that will keep enums from your favorite database in sync with Scala types.
+Enumify is a SBT plugin that will keep enums from your favorite database in sync with Scala types
 
 ## Getting Started
 
@@ -16,7 +16,7 @@ Add source generator to `build.sbt`
 
 ```scala
 sourceGenerators in Compile += Def.task {
-  val connection: java.sql.Connection = ...
+  val connection: java.sql.Connection = ???
 
   enumify.Enumify(connection, enumify.sources.PostgreSQL, enumify.renderers.Plain) {
     (sourceManaged in Compile).value / "enumify"
@@ -59,4 +59,4 @@ object Mood extends Enum[Mood] {
 
 ### Contributing
 
-Use `sbt "testOnly -- -l IntegrationTest"` to run only unit test.
+Use `sbt "testOnly -- -l IntegrationTest"` to run only unit tests
