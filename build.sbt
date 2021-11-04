@@ -15,17 +15,8 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "2.2.0"
 libraryDependencies += "org.typelevel" %% "cats-effect" % "2.5.3"
 
 libraryDependencies += "org.tpolecat" %% "doobie-core" % doobieVersion
+
 libraryDependencies += "org.tpolecat" %% "doobie-postgres" % doobieVersion
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.24"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % "test"
-
-//sourceGenerators in Compile += Def.task {
-//  val file = (sourceManaged in Compile).value / "demo" / "Test.scala"
-//  IO.write(file,
-//    """package demo
-//      |
-//      |object Demo { def qwe = "yo" }""".stripMargin)
-//  Seq(file)
-//}.taskValue
-//
