@@ -46,12 +46,12 @@ object Mood {
 #### Enumeratum
 
 ```scala
-sealed trait Mood extends EnumEntry
+sealed abstract class Mood extends EnumEntry(override val entryName: String) extends EnumEntry
 
 object Mood extends Enum[Mood] {
-  case object Sad extends Mood
-  case object Ok extends Mood
-  case object Happy extends Mood
+  case object Sad extends Mood("sad")
+  case object Ok extends Mood("ok")
+  case object Happy extends Mood("happy")
 
   val values = findValues
 }

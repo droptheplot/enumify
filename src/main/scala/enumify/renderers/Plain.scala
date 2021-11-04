@@ -4,7 +4,7 @@ import enumify._
 
 object Plain extends Renderer {
   def render(enum: Enum): String = {
-    val name = Enum.toScala(enum.name)
+    val name = enum.toScalaName
 
     val values = enum.values
       .map { value =>

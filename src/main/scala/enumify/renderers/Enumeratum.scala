@@ -4,11 +4,11 @@ import enumify._
 
 object Enumeratum extends Renderer {
   def render(enum: Enum): String = {
-    val name = Enum.toScala(enum.name)
+    val name = enum.toScalaName
 
     val values = enum.values
       .map { value =>
-        s"case object ${Enum.toScala(value)} extends $name"
+        s"""case object ${Enum.toScala(value)} extends $name("$value")"""
       }
       .mkString("\n  ")
 
@@ -16,7 +16,7 @@ object Enumeratum extends Renderer {
        |
        |import enumeratum._
        |
-       |sealed trait $name extends EnumEntry
+       |sealed abstract class $name(override val entryName: String) extends EnumEntry
        |
        |object $name extends Enum[$name] {
        |  $values
