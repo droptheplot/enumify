@@ -7,6 +7,7 @@ import doobie.util.transactor.Transactor
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.funsuite.AnyFunSuite
+import enumify.Enum
 
 class MySQLSpec extends AnyFunSuite with Matchers with BeforeAndAfterAll {
   lazy val xa: Transactor.Aux[IO, Unit] = Transactor.fromDriverManager[IO](
@@ -31,11 +32,12 @@ class MySQLSpec extends AnyFunSuite with Matchers with BeforeAndAfterAll {
       .enums(xa)
       .map { enums =>
         enums.map { enum =>
+          enum.schema shouldBe "database"
           enum.name shouldBe "mood"
           enum.values should contain theSameElementsAs List(
-            "sad",
-            "ok",
-            "happy"
+            Enum.Value("sad"),
+            Enum.Value("ok"),
+            Enum.Value("happy")
           )
         }
       }

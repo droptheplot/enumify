@@ -4,15 +4,15 @@ import enumify._
 
 object Enumeratum extends Renderer {
   def render(enum: Enum): String = {
-    val name = enum.toScalaName
+    val name = enum.toScalaId
 
     val values = enum.values
       .map { value =>
-        s"""case object ${Enum.toScala(value)} extends $name("$value")"""
+        s"""case object ${value.toScalaId} extends $name("${value.value}")"""
       }
       .mkString("\n  ")
 
-    s"""package enumify
+    s"""package enumify.${enum.schema}
        |
        |import enumeratum._
        |

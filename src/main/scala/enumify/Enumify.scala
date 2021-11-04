@@ -36,15 +36,24 @@ object Enumify {
     (directory: File) => {
       (for {
         renders <- new Enumify(xa, source, renderer).process
-        files <- renders.map {
-          case (enum, render) =>
-            IO(directory.mkdirs()) *> writeToFile(
-              new File(directory, enum.toScalaFile),
-              render
-            )
+        rendersBySchema = renders.groupBy { case (enum, _) => enum.schema }
+        files <- rendersBySchema.toList.map {
+          case (schema, renders) =>
+            createPackage(directory, schema)
+              .flatMap { packageDirectory =>
+                renders.map {
+                  case (enum, render) =>
+                    writeToFile(new File(packageDirectory, enum.toScalaFile), render)
+                }.sequence
+              }
         }.sequence
-      } yield files).unsafeRunSync
+      } yield files.flatten).unsafeRunSync
     }
+  }
+
+  private def createPackage(directory: File, name: String): IO[File] = {
+    val packageDirectory = new File(directory, name)
+    IO(packageDirectory.mkdirs()).as(packageDirectory)
   }
 
   private def writeToFile(file: File, render: String): IO[File] =

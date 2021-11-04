@@ -1,15 +1,19 @@
 package enumify
 
-import enumify.Enum._
+import enumify.Enum.Value
 
-case class Enum(name: String, values: List[String]) {
-  def toScalaName: String = toScala(name)
+case class Enum(schema: String, name: String, values: List[Value]) {
+  def toScalaId: String = Enum.toScalaId(name)
 
-  def toScalaFile: String = s"$toScalaName.scala"
+  def toScalaFile: String = s"$toScalaId.scala"
 }
 
 object Enum {
-  def toScala(value: String): String =
+  case class Value(value: String) extends AnyVal {
+    def toScalaId: String = Enum.toScalaId(value)
+  }
+
+  def toScalaId(value: String): String =
     if (value.toList.forall(_.isUpper)) value
     else
       value
@@ -17,6 +21,6 @@ object Enum {
         .map(part => titleize(part).getOrElse(""))
         .mkString
 
-  private def titleize(value: String) =
+  private def titleize(value: String): Option[String] =
     value.headOption.map(_.toUpper).map(_ +: value.tail)
 }
