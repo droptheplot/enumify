@@ -1,6 +1,9 @@
 name := "enumify"
 
-organization := "com.github.droptheplot"
+description := "Enum from database generator."
+
+organization := "io.github.droptheplot"
+homepage := Some(url("https://github.com/droptheplot/enumify"))
 
 version := "0.1"
 
@@ -8,6 +11,20 @@ scalaVersion := "2.12.0"
 
 sbtPlugin := true
 sbtVersion := "1.3.0"
+
+scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/droptheplot/enumify"),
+    "scm:git@github.com:droptheplot/enumify.git"
+  )
+)
+
+publishTo := {
+  val nexus = "https://s01.oss.sonatype.org/"
+  if (isSnapshot.value) Some("snapshots" at nexus + "content/repositories/snapshots")
+  else Some("releases" at nexus + "service/local/staging/deploy/maven2")
+}
+publishMavenStyle := true
 
 val doobieVersion = "1.0.0-RC1"
 
